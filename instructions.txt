@@ -1,0 +1,21 @@
+###########Build JARs############
+cd microservice-course-management && ./gradlew bootJar && cd ..
+cd zuul-gateway-service && ./gradlew bootJar && cd ..
+cd microservice-tutorial-management && mvn package && cd ..
+
+###########Build Docker images############
+docker build -t course-image:latest --no-cache ./microservice-course-management
+docker build -t tutorial-micro:latest --no-cache ./microservice-tutorial-management
+docker build -t auth-micro:latest --no-cache ./microservice-user-management
+docker build -t gateway-micro:latest --no-cache ./zuul-gateway-service
+docker build -t client-side:latest --no-cache ./client-side
+
+
+###########Eureka############
+
+http://localhost:8761/lastn
+
+
+###########Client-side############
+
+http://localhost/home

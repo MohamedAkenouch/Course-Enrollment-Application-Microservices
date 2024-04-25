@@ -1,0 +1,114 @@
+version: "3.8"
+services:
+  client-side:
+    container_name: client-side
+    image: client-side:latest
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - app-network
+    depends_on:
+      - gateway-micro
+      - course-micro
+      - tutorial-micro
+      - eureka-micro
+
+  gateway-micro:
+    container_name: gateway-micro
+    image: gateway-micro:latest
+    restart: always
+    ports:
+      - 8765:8765
+    depends_on:
+      - eureka-micro
+    networks:
+      - app-network
+
+  eureka-micro:
+    container_name: eureka-micro
+    image: springcloud/eureka
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 8761:8761
+
+  auth-micro:
+    container_name: auth-micro
+    image: auth-micro:latest
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+    depends_on:
+      - gateway-micro
+      - eureka-micro
+      - auth-micro-mongodb
+
+  auth-micro-mongodb:
+    container_name: auth-micro-mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - app-network
+    volumes:
+      - mongodb-volume:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo-user
+      - MONGO_INITDB_ROOT_PASSWORD=mongo-user
+      - MONGO_INITDB_DATABASE=users-db
+  
+  course-micro:
+    container_name: course-micro
+    image: course-image:latest
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 8001:8001
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://course-micro-mysql:3306/micro_course?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=course-db
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+    depends_on:
+      - course-micro-mysql
+      - eureka-micro
+      - gateway-micro
+
+  course-micro-mysql:
+    container_name: course-micro-mysql
+    image: mysql:latest
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-volume:/data/db
+    environment:
+      - MYSQL_DATABASE=micro_course
+      - MYSQL_USER=course-db
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+
+  tutorial-micro:
+    container_name: tutorial-micro
+    image: tutorial-micro:latest
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - 8081:8081
+    
+networks:
+    app-network:
+      driver: bridge
+  
+volumes:
+  mongodb-volume:
+  mysql-volume:
