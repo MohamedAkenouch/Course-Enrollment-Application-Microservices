@@ -1,4 +1,4 @@
-# Course Enrollment Microservices, Spring Cloud, Spring Boot, Angular 8, MySQL, H2, Hibernate, Liquibase, NodeJS, MongoDB
+# Course Enrollment Application
 
 The application structure is as follows.
 - **microservice-user-management** - Microservice implemented using Spring boot. [More info](microservice-user-management/README.md)
