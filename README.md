@@ -1,11 +1,11 @@
 # Course Enrollment Application
 
 The application structure is as follows.
-- **microservice-user-management** - Microservice implemented using Spring boot. [More info](microservice-user-management/README.md)
-- **microservice-course-management** - Microservice implemented using Spring boot. [More info](microservice-course-management/README.md)
-- **microservice-tutorial-management** - Microservice implemented using Spring eureka and H2 database. [More info](eureka-discovery-service/README.md)
-- **zuul-gateway-service** - Microservice implemented using Spring zuul. [More info](zuul-gateway-service/README.md)
-- **client-side** - A NodeJs application implemented using Angular 8. This consumes services hosted by server side.  [More info](client-side/README.md)
+- **microservice-user-management** - Microservice implemented using Spring boot. 
+- **microservice-course-management** - Microservice implemented using Spring boot. 
+- **microservice-tutorial-management** - Microservice implemented using Spring eureka and H2 database.
+- **zuul-gateway-service** - Microservice implemented using Spring zuul. 
+- **client-side** - A NodeJs application implemented using Angular 8. This consumes services hosted by server side.
 
 You should have Docker installed in your server in order to run this project.
 
